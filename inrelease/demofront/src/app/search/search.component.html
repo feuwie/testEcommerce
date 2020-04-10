@@ -1,0 +1,11 @@
+<p>Результаты по запросу "{{ this.search.title }}"</p>
+
+<div *ngIf="receivedProducts">
+    <p *ngFor="let product of receivedProducts">
+        {{ product.title }}
+    </p>
+</div>
+
+<p *ngIf="receivedProducts == false">
+    Увы, ничего не найдено
+</p>

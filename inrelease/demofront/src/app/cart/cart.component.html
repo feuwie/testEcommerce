@@ -1,0 +1,105 @@
+    <body>
+        <div *ngIf="cartItems.length === 0" class="row all" style="text-align: center; padding: 200px;">
+            <div class="col-sm-12">
+                <p>Найдите товары в нашем каталоге или воспользуйтесь поиском.</p>
+            </div>
+            <div class="col-sm-12">
+                <button class="btn_catalog" routerLink="/category">Перейти</button>
+            </div>
+        </div>
+        <div *ngIf="cartItems.length > 0" class="row all">
+            <div class="col-xl-12 col-sm-12">
+                <p class="bold_text">Корзина</p>
+                <hr>
+            </div>
+            <div class="col-xl-7 col-sm-12 proceed">
+                <div *ngFor="let item of cartItems; index as i" class="row prod">
+                    <div class="col-md-1 col-sm-12">
+                        <img src="{{ item.img }}" alt="img" width="50px">
+                    </div>
+                    <div class="col-md-4 col-sm-12">
+                        <a routerLink="/product/{{ item.article }}">
+                            {{ item.title }}
+                        </a>
+                        <br>
+                        <button *ngIf="addedToWishlist[i]" class="from_fav" (click)="handleDelFromWishlist(i)">В
+                            избранном</button>
+                        <button *ngIf="!addedToWishlist[i]" class="to_fav" (click)="handleAddToWishlist(i)">В
+                            избранное</button>
+                    </div>
+                    <div class="col-md-2 col-sm-12">
+                        <p>{{ item.price | format }} ₽</p>
+                    </div>
+                    <div class="col-md-2 col-sm-12">
+                        <button (click)="minus(i)">-</button>
+                        <input type="text" style="width: 30px;" value="{{ item.qty }}" (change)="change($event, item)">
+                        <button (click)="plus(i)">+</button>
+                    </div>
+                    <div class="col-md-2 col-sm-12">
+                        {{ item.price * item.qty | format }} ₽
+                    </div>
+                    <div class="col-md-1 col-sm-12">
+                        <button style="text-align: right;" (click)="handleDelFromCart(i)">x</button>
+                    </div>
+                </div>
+                <hr>
+                <div style="text-align: right;">
+                    <p style="margin-bottom: 10px;">Товаров на сумму: {{ cartTotal | format }} ₽</p>
+                    <div *ngIf="discount == 0">
+                        <input type="text" placeholder="Введите промокод" #titleInput id="titleInput">
+                        <button class="btn_add" (click)='addTodo(titleInput.value)'>Применить</button>
+                    </div>
+                    <button *ngIf="discount > 0" class="btn_add" (click)='delPromo()'>Удалить</button>
+                </div>
+            </div>
+            <div class="col-xl-4 col-sm-12 proceed">
+                <button class="btn_proceed" routerLink="/order">Перейти к оформлению</button>
+                <p>Доступные способы и время доставки можно выбрать при оформлении заказа</p>
+                <hr>
+                <div class="rows">
+                    <div class="col-sm-12">
+                        <p class="bold_text">Ваша корзина</p>
+                    </div>
+                </div>
+                <div class="rows">
+                    <div class="col-sm-6">
+                        <p>Товары ({{ cartQty }})</p>
+                    </div>
+                    <div class="col-sm-6" style="text-align: right !important;">
+                        {{ cartTotal | format }} ₽
+                    </div>
+                </div>
+                <div class="rows">
+                    <div class="col-sm-6">
+                        <p>Скидка</p>
+                    </div>
+                    <div class="col-sm-6" style="text-align: right !important;">
+                        - {{ discount | format }} ₽
+                    </div>
+                </div>
+                <hr>
+                <div class="rows">
+                    <div class="col-sm-8">
+                        <p class="bold_text">Общая стоимость</p>
+                    </div>
+                    <div class="col-sm-4" style="text-align: right !important;">
+                        {{ cartPromo | format }} ₽
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div *ngIf="cartItems.length === 0" class="alert alert-info">Ваша корзина пустая!
+        </div>
+        <ul *ngIf="cartItems.length > 0" class="list-group">
+            <li class="list-group-item" *ngFor="let item of cartItems; index as i">
+                <button style="text-align: right;" (click)="handleDelFromCart(i)">x</button>
+                <a routerLink="/product/{{ item.article }}">
+                    <p>{{ item.productName }} x {{ item.qty }}</p>
+                    <p>{{ item.price }}</p>
+                </a>
+            </li>
+            <li class="list-group-item active">
+                <strong>Total</strong> {{ cartTotal }}
+            </li>
+        </ul> -->
+    </body>

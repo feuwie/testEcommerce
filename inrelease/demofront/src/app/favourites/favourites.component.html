@@ -1,0 +1,47 @@
+<body>
+    <div *ngIf="wishlistItems.length === 0" class="row all" style="text-align: center; padding: 200px;">
+        <div class="col-sm-12">
+            <p>Ваш список избранных товаров пока пуст. <br>Найдите товары в нашем каталоге или воспользуйтесь поиском.
+            </p>
+        </div>
+        <div class="col-sm-12">
+            <button class="btn_catalog" routerLink="/category">Перейти</button>
+        </div>
+    </div>
+    <div *ngIf="wishlistItems.length > 0" class="row all">
+        <div class="col-xl-12 col-sm-12">
+            <p class="bold_text">Избранное</p>
+        </div>
+        <div class="col-xl-12 col-sm-12">
+            <select (change)="sortBy($event.target.value)">
+                <option>Сначала новые</option>
+                <option>Сначала старые</option>
+                <option>Сначала дешевые</option>
+                <option>Сначала дорогие</option>
+            </select>
+            <hr>
+        </div>
+        <div class="row">
+            <div *ngFor="let item of wishlistItems; index as i" class="col-xl-2 col-lg-3 col-md-4 col-sm-12 card">
+                <button style="text-align: right;" (click)="handleDelFromWishlist(i)">x</button>
+                <img src="{{ item.img }}" alt="img" width="80">
+                <a routerLink="/product/{{ item.article }}">
+                    {{ item.title }}
+                    {{ item.price | format}} ₽
+                </a>
+                <p>%rating%</p>
+                <button class="btn_add" (click)="handleAddToCart(i)">Добавить в корзину</button>
+                <p>%notification%</p>
+            </div>
+        </div>
+    </div>
+    <!-- <ul *ngIf="wishlistItems.length > 0" class="list-group">
+        <li class="list-group-item" *ngFor="let item of wishlistItems; index as i">
+            <button style="text-align: right;" (click)="handleDelFromWishlist(i)">x</button>
+            <a routerLink="/product/{{ item.article }}">
+                <p>{{ item.title }}</p>
+                <p>{{ item.price }}</p>
+            </a>
+        </li>
+    </ul> -->
+</body>
